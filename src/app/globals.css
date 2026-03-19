@@ -1,0 +1,80 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --navy: #0f2744;
+    --navy-mid: #1e3a5f;
+    --orange: #f97316;
+  }
+
+  body {
+    @apply font-sans text-slate-800 bg-slate-50;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-orange-500 text-white font-bold px-6 py-3 rounded-lg
+           transition-all duration-200
+           hover:bg-orange-600 hover:-translate-y-0.5
+           hover:shadow-[0_4px_12px_rgba(249,115,22,0.4)]
+           disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .btn-secondary {
+    @apply bg-transparent text-orange-500 font-semibold px-6 py-3 rounded-lg
+           border-2 border-orange-500 transition-all duration-200
+           hover:bg-orange-50;
+  }
+
+  .btn-outline {
+    @apply bg-transparent text-slate-700 font-semibold px-5 py-2.5 rounded-lg
+           border border-slate-300 transition-all duration-200
+           hover:border-orange-500 hover:text-orange-500;
+  }
+
+  .nav-bar {
+    @apply bg-[#0f2744] px-8 h-[60px] flex items-center
+           justify-between sticky top-0 z-50;
+  }
+
+  .wizard-option {
+    @apply bg-slate-50 border-2 border-transparent rounded-2xl
+           p-4 cursor-pointer transition-all duration-200 select-none
+           hover:border-orange-400 hover:bg-orange-50;
+  }
+
+  .wizard-option.selected {
+    @apply border-orange-500 bg-orange-50;
+  }
+
+  .plan-card {
+    @apply border border-slate-200 rounded-2xl p-7
+           transition-all duration-200 cursor-pointer bg-white
+           hover:border-orange-400 hover:shadow-[0_4px_20px_rgba(249,115,22,0.15)];
+  }
+
+  .plan-card.popular {
+    @apply border-orange-500 relative;
+  }
+
+  .sidebar-link {
+    @apply flex items-center gap-3 px-4 py-2.5 rounded-lg
+           cursor-pointer text-slate-500 text-sm transition-all duration-200
+           hover:bg-orange-50 hover:text-orange-500;
+  }
+
+  .sidebar-link.active {
+    @apply bg-orange-50 text-orange-500;
+  }
+
+  .section-title {
+    @apply text-2xl font-bold text-[#0f2744];
+  }
+
+  .section-sub {
+    @apply text-slate-500 text-sm mt-1;
+  }
+}
