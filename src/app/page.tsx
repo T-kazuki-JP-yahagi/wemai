@@ -96,12 +96,12 @@ export default function LandingPage() {
 
       {/* Pricing Preview */}
       <section className="py-16 px-6 bg-slate-50">
-        <div className="max-w-4xl mx-auto text-center">
+        <div className="max-w-3xl mx-auto text-center">
           <h2 className="text-2xl font-bold text-[#0f2744] mb-2">
             シンプルな料金プラン
           </h2>
           <p className="text-slate-500 mb-12">まずは無料で試してみてください</p>
-          <div className="grid md:grid-cols-3 gap-6">
+          <div className="grid md:grid-cols-2 gap-6 max-w-2xl mx-auto">
             <div className="plan-card">
               <div className="font-bold text-[#0f2744] mb-1">Free</div>
               <div className="text-3xl font-black text-[#0f2744] mb-1">¥0</div>
@@ -112,25 +112,15 @@ export default function LandingPage() {
             </div>
             <div className="plan-card popular">
               <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-orange-500 text-white text-xs font-bold px-3 py-0.5 rounded-full">
-                人気
+                おすすめ
               </div>
-              <div className="font-bold text-[#0f2744] mb-1">Pro 月額</div>
+              <div className="font-bold text-[#0f2744] mb-1">Pro</div>
               <div className="text-3xl font-black text-[#0f2744] mb-1">
-                ¥500<span className="text-base font-normal text-slate-400">/月</span>
+                ¥980<span className="text-base font-normal text-slate-400"> 買い切り</span>
               </div>
-              <div className="text-slate-400 text-sm mb-5">いつでも解約可能</div>
+              <div className="text-orange-500 font-semibold text-sm mb-5">一度購入で永久利用</div>
               <Link href="/upgrade" className="block w-full btn-primary text-center">
-                Pro にアップグレード
-              </Link>
-            </div>
-            <div className="plan-card">
-              <div className="font-bold text-[#0f2744] mb-1">Pro 年額</div>
-              <div className="text-3xl font-black text-[#0f2744] mb-1">
-                ¥3,600<span className="text-base font-normal text-slate-400">/年</span>
-              </div>
-              <div className="text-orange-500 font-semibold text-sm mb-5">40% お得</div>
-              <Link href="/upgrade" className="block w-full btn-outline text-center">
-                年額プランを選ぶ
+                Pro を購入する
               </Link>
             </div>
           </div>
@@ -158,7 +148,20 @@ export default function LandingPage() {
               (Anthropic)
             </p>
           </div>
-          <div className="text-xs text-center md:text-right space-y-1">
+          <div className="text-xs text-center md:text-right space-y-2">
+            <div>
+              <a
+                href="https://x.com/yahagi_kongou"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 text-slate-300 hover:text-white transition-colors"
+              >
+                <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.738l7.73-8.835L1.254 2.25H8.08l4.259 5.631 5.905-5.631zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                </svg>
+                お問い合わせ（X）
+              </a>
+            </div>
             <p>© 2025 WeMAI. All rights reserved.</p>
             <p className="text-slate-500">
               Claude は Anthropic の商標です。本サービスは Anthropic が提供するものではありません。

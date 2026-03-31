@@ -1,8 +1,7 @@
 import Link from 'next/link'
 import { NavBar } from '@/components/ui/NavBar'
 
-const STRIPE_MONTHLY_LINK = process.env.NEXT_PUBLIC_STRIPE_MONTHLY_LINK || '/signup'
-const STRIPE_YEARLY_LINK = process.env.NEXT_PUBLIC_STRIPE_YEARLY_LINK || '/signup'
+const STRIPE_PRO_LINK = process.env.NEXT_PUBLIC_STRIPE_PRO_LINK || '/signup'
 
 const features = {
   free: [
@@ -28,7 +27,7 @@ export default function UpgradePage() {
     <div className="flex flex-col min-h-screen bg-slate-50">
       <NavBar backHref="/account" backLabel="マイページへ" />
 
-      <div className="flex-1 max-w-5xl mx-auto w-full px-6 py-16 animate-fade-slide-in">
+      <div className="flex-1 max-w-4xl mx-auto w-full px-6 py-16 animate-fade-slide-in">
         {/* Header */}
         <div className="text-center mb-12">
           <div className="inline-block bg-orange-100 text-orange-600 text-sm font-bold px-4 py-1 rounded-full mb-4">
@@ -45,7 +44,7 @@ export default function UpgradePage() {
         </div>
 
         {/* Pricing cards */}
-        <div className="grid md:grid-cols-3 gap-6 mb-12">
+        <div className="grid md:grid-cols-2 gap-6 mb-12 max-w-2xl mx-auto">
           {/* Free */}
           <div className="plan-card">
             <div className="font-bold text-[#0f2744] mb-1 text-lg">Free</div>
@@ -66,16 +65,16 @@ export default function UpgradePage() {
             </Link>
           </div>
 
-          {/* Pro Monthly */}
+          {/* Pro 買い切り */}
           <div className="plan-card popular">
             <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-orange-500 text-white text-xs font-bold px-3 py-0.5 rounded-full">
-              人気
+              おすすめ
             </div>
-            <div className="font-bold text-[#0f2744] mb-1 text-lg">Pro 月額</div>
+            <div className="font-bold text-[#0f2744] mb-1 text-lg">Pro</div>
             <div className="text-4xl font-black text-[#0f2744] mb-1">
-              ¥500<span className="text-base font-normal text-slate-400">/月</span>
+              ¥980<span className="text-base font-normal text-slate-400"> 買い切り</span>
             </div>
-            <div className="text-slate-400 text-sm mb-6">いつでも解約可能</div>
+            <div className="text-orange-500 font-semibold text-sm mb-6">一度購入で永久利用</div>
             <ul className="space-y-2 text-sm mb-8">
               {features.pro.map((f) => (
                 <li key={f} className="text-slate-600 font-medium">
@@ -83,27 +82,8 @@ export default function UpgradePage() {
                 </li>
               ))}
             </ul>
-            <a href={STRIPE_MONTHLY_LINK} className="block w-full btn-primary text-center">
-              月額 Pro を始める
-            </a>
-          </div>
-
-          {/* Pro Yearly */}
-          <div className="plan-card">
-            <div className="font-bold text-[#0f2744] mb-1 text-lg">Pro 年額</div>
-            <div className="text-4xl font-black text-[#0f2744] mb-1">
-              ¥3,600<span className="text-base font-normal text-slate-400">/年</span>
-            </div>
-            <div className="text-orange-500 font-semibold text-sm mb-6">2ヶ月分お得（40%OFF）</div>
-            <ul className="space-y-2 text-sm mb-8">
-              {features.pro.map((f) => (
-                <li key={f} className="text-slate-600 font-medium">
-                  {f}
-                </li>
-              ))}
-            </ul>
-            <a href={STRIPE_YEARLY_LINK} className="block w-full btn-outline text-center">
-              年額プランを選ぶ
+            <a href={STRIPE_PRO_LINK} className="block w-full btn-primary text-center">
+              Pro を購入する
             </a>
           </div>
         </div>
@@ -114,20 +94,24 @@ export default function UpgradePage() {
           <dl className="space-y-5">
             {[
               {
-                q: 'いつでも解約できますか？',
-                a: 'はい。月額プランはいつでも解約可能で、次の更新日から課金が停止します。',
+                q: '買い切りとはどういう意味ですか？',
+                a: '一度購入すると、以降は追加料金なしで Pro のすべての機能を永久にご利用いただけます。サブスクリプションではないので毎月の請求はありません。',
               },
               {
                 q: '支払い方法は何が使えますか？',
                 a: 'Stripe 経由でクレジットカード（Visa, Mastercard, AmEx, JCB）が利用できます。',
               },
               {
-                q: 'Pro にアップグレードすると過去の設定は引き継がれますか？',
+                q: 'Pro を購入すると過去の設定は引き継がれますか？',
                 a: 'はい。アカウントに紐付いた生成履歴はそのまま引き継がれます。',
               },
               {
                 q: 'Free プランでも十分使えますか？',
-                a: 'CLAUDE.md と settings.json の生成は Free プランでも無制限に利用できます。',
+                a: 'CLAUDE.md と settings.json の生成は Free プランでも無制限に利用できます。より高度な MCP 設定やカスタムコマンドが必要な方は Pro をご検討ください。',
+              },
+              {
+                q: 'お問い合わせはどこからできますか？',
+                a: 'X（旧Twitter）アカウント @yahagi_kongou までお気軽にご連絡ください。',
               },
             ].map(({ q, a }) => (
               <div key={q}>
@@ -136,6 +120,19 @@ export default function UpgradePage() {
               </div>
             ))}
           </dl>
+          <div className="mt-6 pt-6 border-t border-slate-100 text-center">
+            <a
+              href="https://x.com/yahagi_kongou"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 text-sm text-slate-500 hover:text-[#0f2744] transition-colors"
+            >
+              <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.738l7.73-8.835L1.254 2.25H8.08l4.259 5.631 5.905-5.631zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+              </svg>
+              @yahagi_kongou にお問い合わせ
+            </a>
+          </div>
         </div>
       </div>
     </div>

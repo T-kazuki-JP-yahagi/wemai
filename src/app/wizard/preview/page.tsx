@@ -6,6 +6,8 @@ import { NavBar } from '@/components/ui/NavBar'
 import { Button } from '@/components/ui/Button'
 import type { GeneratedFile } from '@/types'
 
+const PREVIEW_LINES = 5
+
 export default function PreviewPage() {
   const [files, setFiles] = useState<GeneratedFile[]>([])
   const [activeTab, setActiveTab] = useState(0)
@@ -54,6 +56,10 @@ export default function PreviewPage() {
   }
 
   const active = files[activeTab]
+  const lines = active?.content?.split('\n') ?? []
+  const visibleLines = lines.slice(0, PREVIEW_LINES)
+  const hiddenLines = lines.slice(PREVIEW_LINES)
+  const hasHidden = hiddenLines.length > 0
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -68,7 +74,7 @@ export default function PreviewPage() {
           <h1 className="section-title">設定ファイルを生成しました！</h1>
         </div>
         <p className="section-sub mb-8 ml-11">
-          回答内容をもとに {files.length} ファイルを生成しました。プレビューを確認して ZIP でダウンロードしてください。
+          回答内容をもとに {files.length} ファイルを生成しました。Pro にアップグレードして全内容をダウンロードしてください。
         </p>
 
         {/* File tabs */}
@@ -88,24 +94,83 @@ export default function PreviewPage() {
               </button>
             ))}
           </div>
-          <div className="bg-[#0f172a] p-5 font-mono text-sm text-slate-200 max-h-60 overflow-y-auto whitespace-pre-wrap">
-            {active?.content}
+
+          {/* Preview area */}
+          <div className="bg-[#0f172a] font-mono text-sm text-slate-200 relative overflow-hidden">
+            {/* Visible first 5 lines */}
+            <div className="p-5 pb-2">
+              {visibleLines.map((line, i) => (
+                <div key={i} className="whitespace-pre-wrap leading-6">
+                  {line || '\u00a0'}
+                </div>
+              ))}
+            </div>
+
+            {/* Blurred hidden lines */}
+            {hasHidden && (
+              <div className="relative">
+                {/* Blurred content (not selectable) */}
+                <div
+                  className="p-5 pt-0 whitespace-pre-wrap leading-6"
+                  style={{
+                    filter: 'blur(5px)',
+                    userSelect: 'none',
+                    WebkitUserSelect: 'none',
+                    MozUserSelect: 'none',
+                    msUserSelect: 'none',
+                    pointerEvents: 'none',
+                  }}
+                  aria-hidden="true"
+                >
+                  {hiddenLines.join('\n')}
+                </div>
+
+                {/* Overlay with CTA */}
+                <div
+                  className="absolute inset-0 flex flex-col items-center justify-center"
+                  style={{
+                    background:
+                      'linear-gradient(to bottom, rgba(15,23,42,0.2) 0%, rgba(15,23,42,0.82) 35%, rgba(15,23,42,0.97) 100%)',
+                  }}
+                >
+                  <div className="text-center px-6 py-4">
+                    <div className="text-3xl mb-2">🔒</div>
+                    <p className="text-white font-bold text-base mb-1">
+                      続きは Pro で確認できます
+                    </p>
+                    <p className="text-slate-400 text-sm mb-4">
+                      残り {hiddenLines.length} 行 — Pro を購入して全ファイルをダウンロード
+                    </p>
+                    <Link
+                      href="/upgrade"
+                      className="inline-block bg-orange-500 hover:bg-orange-600 text-white font-bold text-sm px-6 py-2.5 rounded-lg transition-colors"
+                    >
+                      Pro を購入する ¥980（買い切り）→
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         </div>
 
         {/* Actions */}
         <div className="flex gap-4 flex-wrap">
-          <Button onClick={handleDownloadZip} className="flex items-center gap-2">
+          <Button
+            onClick={handleDownloadZip}
+            className="flex items-center gap-2 opacity-40 cursor-not-allowed"
+            disabled
+          >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
             </svg>
-            ZIP でダウンロード
+            ZIP でダウンロード（Pro のみ）
           </Button>
+          <Link href="/upgrade" className="btn-primary px-6 py-3">
+            ⭐ Pro を購入して全データをDL
+          </Link>
           <Link href="/wizard" className="btn-secondary px-6 py-3">
             🔄 設定を変えて再生成
-          </Link>
-          <Link href="/account" className="btn-outline px-6 py-3">
-            マイページへ
           </Link>
         </div>
 
@@ -132,8 +197,23 @@ export default function PreviewPage() {
           </div>
         </div>
 
+        {/* Contact */}
+        <div className="mt-6 text-center">
+          <a
+            href="https://x.com/yahagi_kongou"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1.5 text-xs text-slate-400 hover:text-slate-600 transition-colors"
+          >
+            <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.738l7.73-8.835L1.254 2.25H8.08l4.259 5.631 5.905-5.631zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+            </svg>
+            お問い合わせは @yahagi_kongou まで
+          </a>
+        </div>
+
         {/* Powered by badge */}
-        <p className="text-xs text-slate-400 text-center mt-8">
+        <p className="text-xs text-slate-400 text-center mt-3">
           Generated by WeMAI — Powered by{' '}
           <a href="https://claude.ai" className="text-orange-400 underline" target="_blank" rel="noopener noreferrer">
             Claude
